@@ -1,0 +1,13 @@
+- hosts: <server1>
+  become: true
+  roles:
+    - role: base
+    - role: bitcoin
+      vars:
+        suffix: 1
+        sidecar_urls: '[]'
+    - role: ethereum # one server can run multiple nodes
+      vars:
+        suffix: 1
+        sidecar_urls: '[]'
+    - role: web

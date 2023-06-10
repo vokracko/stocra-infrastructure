@@ -1,0 +1,2 @@
+node_token: ''
+node_url: postgres://postgres:postgres@{{ role_name }}-postgres-1:5432

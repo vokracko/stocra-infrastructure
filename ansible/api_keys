@@ -1,0 +1,11 @@
+CONFIG SET save ''
+
+HSET bitcoin/api_keys dev-234023409fkljadflqeierrEfdlD_gj34ko24htjklvn inf
+HSET litecoin/api_keys dev-234023409fkljadflqeierrEfdlD_gj34ko24htjklvn inf
+HSET dogecoin/api_keys dev-234023409fkljadflqeierrEfdlD_gj34ko24htjklvn inf
+HSET ethereum/api_keys dev-234023409fkljadflqeierrEfdlD_gj34ko24htjklvn inf
+HSET cardano/api_keys dev-234023409fkljadflqeierrEfdlD_gj34ko24htjklvn inf
+HSET aptos/api_keys dev-234023409fkljadflqeierrEfdlD_gj34ko24htjklvn inf
+HSET eos/api_keys dev-234023409fkljadflqeierrEfdlD_gj34ko24htjklvn inf
+
+SAVE

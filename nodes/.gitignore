@@ -1,0 +1,6 @@
+*.idea
+*.gz
+*.tar
+*.zip
+datadir*
+.env

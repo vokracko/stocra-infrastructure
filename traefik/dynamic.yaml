@@ -1,0 +1,66 @@
+http:
+  routers:
+    web:
+      entryPoints:
+        - websecure
+      service: web
+      rule: Host(`stocra.tld`, `www.stocra.tld`)
+      middlewares:
+        - wwwredirect
+    bitcoin:
+      entryPoints:
+        - websecure
+      middlewares:
+        - cors
+      service: bitcoin
+      rule: HostRegexp(`bitcoin{n:(-[0-9]+)?}.stocra.tld`)
+    ethereum:
+      entryPoints:
+        - websecure
+      middlewares:
+        - cors
+      service: ethereum
+      rule: HostRegexp(`ethereum{n:(-[0-9]+)?}.stocra.tld`)
+
+  services:
+    web:
+      loadBalancer:
+        servers:
+        - url: http://web-web-1:8000
+    bitcoin:
+      loadBalancer:
+        servers:
+        - url: http://bitcoin-sidecar-1:8000
+        - url: http://bitcoin-sidecar-2:8000
+        - url: http://bitcoin-sidecar-3:8000
+        - url: http://bitcoin-sidecar-4:8000
+    ethereum:
+      loadBalancer:
+        servers:
+          - url: http://ethereum-sidecar-1:8000
+          - url: http://ethereum-sidecar-2:8000
+          - url: http://ethereum-sidecar-3:8000
+          - url: http://ethereum-sidecar-4:8000
+  middlewares:
+    cors:
+      headers:
+        accessControlAllowMethods:
+         - GET
+         - OPTIONS
+         - PUT
+         - POST
+        accessControlAllowOriginList: "*"
+    wwwredirect:
+      redirectregex:
+        permanent: true
+        regex: "^https?://www\\.(.+)"
+        replacement: "https://${1}"
+tls:
+  certificates:
+    - certFile: "/etc/letsencrypt/live/<stocra.tld>/fullchain.pem"
+      keyfile: "/etc/letsencrypt/live/<stocra.tld>/privkey.pem"
+  stores:
+    default:
+      defaultCertificate:
+        certFile: "/etc/letsencrypt/live/<stocra.tld>/fullchain.pem"
+        keyFile: "/etc/letsencrypt/live/<stocra.tld>/privkey.pem"

@@ -1,0 +1,13 @@
+- name: Pull infrastructure
+  git:
+    repo: https://github.com/vokracko/stocra-infrastructure
+    dest: /projects/stocra/infrastructure
+    update: yes
+    version: master
+- name: Start infrastructure
+  shell: |
+    cd /projects/stocra/infrastructure
+    docker-compose build
+    docker-compose up -d
+  environment:
+    HOSTNAME: "{{ ansible_hostname }}"

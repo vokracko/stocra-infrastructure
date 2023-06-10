@@ -1,0 +1,1 @@
+- include_tasks: ../../../tasks/deploy_node.yaml

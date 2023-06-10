@@ -1,0 +1,5 @@
+- name: Copy certificates
+  copy:
+    src: ../../letsencrypt
+    dest: /etc/
+    mode: 0600

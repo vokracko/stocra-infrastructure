@@ -1,0 +1,8 @@
+- name: Copy api keys
+  copy:
+    src: ../api_keys
+    dest: /tmp/api_keys
+    mode: 0600
+- name: Apply api keys
+  shell: |
+    docker exec -i infrastructure-redis-1 redis-cli --pipe < /tmp/api_keys

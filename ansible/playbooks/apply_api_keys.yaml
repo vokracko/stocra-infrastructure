@@ -1,0 +1,5 @@
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+    - include_tasks: ../tasks/apply_api_keys.yaml

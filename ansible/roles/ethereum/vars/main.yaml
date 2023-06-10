@@ -1,0 +1,2 @@
+node_token: ''
+node_url: http://{{ role_name }}-node-1:8000

@@ -1,0 +1,32 @@
+x-logging: &default-logging
+  options:
+    max-size: "100m"
+    max-file: "1"
+  driver: json-file
+
+services:
+  node:
+    image: eos
+#    command:
+#      - "--replay-blockchain"
+    stop_grace_period: 100m
+
+  mongo:
+    image: mongo
+    volumes:
+      - ./datadir/mongo:/data/db/
+    expose:
+      - 27017
+    restart: unless-stopped
+    logging: *default-logging
+
+  filler:
+    image: filler
+    env_file: .env
+    command:
+      - "txid_to_block_mapper"
+    restart: unless-stopped
+    logging: *default-logging
+    depends_on:
+      - mongo
+      - node

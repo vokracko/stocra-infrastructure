@@ -1,0 +1,16 @@
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+  - name: Copy usage script
+    copy:
+      src: ../usage.sh
+      dest: /tmp/usage.sh
+      mode: 0600
+  - name: Gather usage
+    shell: bash /tmp/usage.sh
+    register: usage
+  - name: Print usage
+    debug:
+      msg: "{{ ansible_play_hosts | map('extract', hostvars, 'usage') | map(attribute='stdout') | map('split', '\n') | flatten }}"
+    run_once: yes

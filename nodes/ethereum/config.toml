@@ -1,0 +1,13 @@
+[Eth]
+SyncMode = "full"
+TxLookupLimit = 0
+DatabaseCache = 16384
+TrieCleanCache = 2048
+TrieDirtyCache = 2048
+SnapshotCache = 2048
+
+[Node]
+HTTPHost = "0.0.0.0"
+HTTPPort = 8000
+HTTPModules = ["personal", "eth", "net", "web3"]
+HTTPVirtualHosts = ["*"]

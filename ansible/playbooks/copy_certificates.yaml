@@ -1,0 +1,8 @@
+- hosts: all
+  become: true
+  tasks:
+    - include_tasks: ../tasks/copy_certificates.yaml
+    - name: Restart traefik
+      shell: |
+        cd /projects/stocra/infrastructure
+        docker-compose up -d --force-recreate traefik

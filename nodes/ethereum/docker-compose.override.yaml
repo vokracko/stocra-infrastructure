@@ -1,0 +1,36 @@
+x-logging: &default-logging
+  options:
+    max-size: "100m"
+    max-file: "1"
+  driver: json-file
+
+services:
+  node:
+    image: ethereum
+    expose:
+      - 8000
+      - 8551
+    command:
+      - --authrpc.vhosts
+      - '*'
+      - --authrpc.addr
+      - 0.0.0.0
+    volumes:
+      - ./datadir/ancient/:/node/datadir-ancient
+
+  consensus:
+    image: sigp/lighthouse:v4.1.0
+    restart: unless-stopped
+    volumes:
+      - ./datadir/lighthouse:/root/.lighthouse
+      - ./datadir/node/geth/jwtsecret:/root/jwtsecret
+    command:
+      - lighthouse
+      - beacon
+      - --execution-endpoint
+      - http://ethereum-node-1:8551
+      - --execution-jwt
+      - /root/jwtsecret
+      - --checkpoint-sync-url
+      - https://beaconstate.ethstaker.cc
+    logging: *default-logging

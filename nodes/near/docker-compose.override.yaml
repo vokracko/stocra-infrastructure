@@ -1,0 +1,9 @@
+x-logging: &default-logging
+  options:
+    max-size: "100m"
+    max-file: "1"
+  driver: json-file
+
+services:
+  node:
+    image: near

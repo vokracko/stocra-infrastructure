@@ -1,0 +1,11 @@
+- name: Pull web
+  git:
+    repo: https://github.com/vokracko/stocra-web
+    dest: /projects/stocra/web
+    update: yes
+    version: master
+- name: Start web
+  shell: |
+    cd /projects/stocra/web
+    docker-compose build
+    docker-compose up -d

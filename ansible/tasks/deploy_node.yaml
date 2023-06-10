@@ -1,0 +1,49 @@
+- name: Pull sidecar
+  git:
+    repo: https://github.com/vokracko/stocra-sidecar
+    dest: /projects/stocra/sidecar
+    update: yes
+    version: master
+- name: Build sidecar
+  shell: |
+    cd /projects/stocra/sidecar
+    docker-compose build sidecar
+  environment:
+    DOCKER_BUILDKIT: 1
+- name: Pull precacher
+  git:
+    repo: https://github.com/vokracko/stocra-precacher
+    dest: /projects/stocra/precacher
+    update: yes
+    version: master
+- name: Build precacher
+  shell: |
+    cd /projects/stocra/precacher
+    docker-compose build precacher
+  environment:
+    DOCKER_BUILDKIT: 1
+- name: Pull filler
+  git:
+    repo: https://github.com/vokracko/stocra-filler
+    dest: /projects/stocra/filler
+    update: yes
+    version: master
+- name: Build filler
+  shell: |
+    cd /projects/stocra/filler
+    docker-compose build filler
+  environment:
+    DOCKER_BUILDKIT: 1
+- name: Create .env file
+  ansible.builtin.template:
+    src: ../mytemplates/node.env
+    dest: "/projects/stocra/infrastructure/nodes/{{ role_name }}/.env"
+    owner: root
+    group: root
+    mode: '0600'
+- include_tasks: ./apply_api_keys.yaml
+- name: Start node and services
+  shell: |
+    cd "/projects/stocra/infrastructure/nodes/{{ role_name }}"
+    docker-compose build
+    docker-compose up -d
